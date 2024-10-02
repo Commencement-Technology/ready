@@ -16,7 +16,7 @@ const Login = () => {
     login(email, password);
   };
 
-  if (loggedInUser) {
+  if (!!loggedInUser) {
     return router.push("/library");
   }
 
