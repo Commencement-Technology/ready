@@ -1,32 +1,17 @@
 "use client";
-import { useState } from "react";
-import { account } from "../appwrite";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { GlobalContext } from "@/services/GlobalContext";
+import { useContext, useState } from "react";
 
 const Login = () => {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const { login, loggedInUser } = useContext(GlobalContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const login = async (email, password) => {
-    try {
-      const session = await account.createEmailPasswordSession(email, password);
-      console.log(session);
-      setLoggedInUser(await account.get());
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     login(email, password);
-  };
-
-  const logout = async () => {
-    await account.deleteSession("current");
-    setLoggedInUser(null);
   };
 
   if (loggedInUser) {
