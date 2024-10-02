@@ -2,10 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GlobalContext } from "@/services/GlobalContext";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 const Login = () => {
   const { login, loggedInUser } = useContext(GlobalContext);
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,12 +17,7 @@ const Login = () => {
   };
 
   if (loggedInUser) {
-    return (
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <p>Logged in as {loggedInUser.name}</p>
-        <Button onClick={logout}>Logout</Button>
-      </div>
-    );
+    return router.push("/library");
   }
 
   return (

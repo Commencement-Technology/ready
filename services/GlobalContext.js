@@ -1,6 +1,6 @@
 "use client";
 import { account, ID } from "@/app/appwrite";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
 
@@ -8,11 +8,22 @@ export const GlobalContextProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const isLoggedIn = async () => {
+    try {
+      setLoading(true);
+      const res = await account.get();
+      setLoggedInUser(res);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
   const signUp = async (email, password, name) => {
     try {
       setLoading(true);
       const res = await account.create(ID.unique(), email, password, name);
-      console.log(res);
       return res;
     } catch (error) {
       console.log(error);
@@ -24,7 +35,6 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const session = await account.createEmailPasswordSession(email, password);
-      console.log(session);
       setLoggedInUser(await account.get());
     } catch (error) {
       console.error(error);
@@ -37,9 +47,13 @@ export const GlobalContextProvider = ({ children }) => {
     setLoggedInUser(null);
   };
 
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
+
   return (
     <GlobalContext.Provider
-      value={{ loading, loggedInUser, setLoggedInUser, login, signUp, logout }}
+      value={{ loading, loggedInUser, login, signUp, logout }}
     >
       {children}
     </GlobalContext.Provider>
