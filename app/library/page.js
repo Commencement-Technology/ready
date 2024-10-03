@@ -1,6 +1,16 @@
-import React from "react";
+"use client";
+import { pinata } from "@/utils/config";
+import { useEffect } from "react";
 
 const Library = () => {
+  const getFiles = async () => {
+    const files = await pinata.files.list();
+  };
+
+  useEffect(() => {
+    getFiles();
+  }, []);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h1>Library</h1>
