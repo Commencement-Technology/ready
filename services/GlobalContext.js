@@ -1,5 +1,6 @@
 "use client";
-import { account, ID } from "@/app/appwrite";
+import { account, client, ID } from "@/app/appwrite";
+import { Databases } from "appwrite";
 import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
@@ -7,6 +8,8 @@ export const GlobalContext = createContext();
 export const GlobalContextProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const databases = new Databases(client);
 
   const isLoggedIn = async () => {
     try {
@@ -47,13 +50,28 @@ export const GlobalContextProvider = ({ children }) => {
     setLoggedInUser(null);
   };
 
+  const uploadDoc = async (title, description, url, thumbnail) => {
+    try {
+      const res = await databases.createDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
+        ID.unique(),
+        { title, description, url, thumbnail }
+      );
+
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     isLoggedIn();
   }, []);
 
   return (
     <GlobalContext.Provider
-      value={{ loading, loggedInUser, login, signUp, logout }}
+      value={{ loading, loggedInUser, login, signUp, logout, uploadDoc }}
     >
       {children}
     </GlobalContext.Provider>
