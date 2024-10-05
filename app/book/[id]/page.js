@@ -1,6 +1,8 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { GlobalContext } from "@/services/GlobalContext";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
 
@@ -38,6 +40,9 @@ const BookDetails = () => {
             <div className="flex flex-col gap-2">
               <h1>{data.title}</h1>
               <p>{data.description}</p>
+              <Button asChild>
+                <Link href={`/book/${id}/read`}>Read</Link>
+              </Button>
             </div>
           </div>
         ) : (
