@@ -3,6 +3,7 @@ import "./globals.css";
 import { GlobalContextProvider } from "@/services/GlobalContext";
 import Navbar from "@/components/ui/general/Navbar";
 import Footer from "@/components/ui/general/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           {children}
           <Footer />
+          <Toaster />
         </body>
       </html>
     </GlobalContextProvider>
