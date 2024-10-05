@@ -18,7 +18,6 @@ export const GlobalContextProvider = ({ children }) => {
       setLoggedInUser(res);
       setLoading(false);
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };
@@ -29,7 +28,6 @@ export const GlobalContextProvider = ({ children }) => {
       const res = await account.create(ID.unique(), email, password, name);
       return res;
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
@@ -40,7 +38,6 @@ export const GlobalContextProvider = ({ children }) => {
       const session = await account.createEmailPasswordSession(email, password);
       setLoggedInUser(await account.get());
     } catch (error) {
-      console.error(error);
       setLoading(true);
     }
   };
@@ -63,7 +60,6 @@ export const GlobalContextProvider = ({ children }) => {
       setLoading(false);
       return res;
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };
@@ -79,7 +75,6 @@ export const GlobalContextProvider = ({ children }) => {
       setLoading(false);
       return res;
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };
@@ -96,7 +91,6 @@ export const GlobalContextProvider = ({ children }) => {
       setLoading(false);
       return res;
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };
