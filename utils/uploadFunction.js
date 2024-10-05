@@ -11,6 +11,5 @@ export const uploadFile = async (file) => {
     },
     body: JSON.stringify({ cid: upload.cid }),
   });
-  console.log({ urlRequest });
   return urlRequest;
 };
