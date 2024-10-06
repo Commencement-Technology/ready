@@ -20,63 +20,65 @@ const Navbar = () => {
               {siteTitle}
             </Link>
           </div>
-          {!!user ? (
-            <div className="flex gap-2">
-              <div className="hidden sm:block">
-                <div className="flex">
-                  <Button
-                    onClick={logout}
-                    className="text-gray-100 bg-red-700 hover:bg-red-900 font-medium"
-                  >
-                    Logout
-                  </Button>
-                </div>
+          <div className="flex gap-2">
+            <div className="hidden sm:block">
+              <div className="flex">
+                <Link
+                  href="/library"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Library
+                </Link>
               </div>
             </div>
-          ) : (
-            <div className="flex gap-2">
-              <div className="hidden sm:block">
-                <div className="flex">
-                  <Link
-                    href="/library"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Library
-                  </Link>
-                </div>
-              </div>
-              <div className="hidden sm:block">
-                <div className="flex">
-                  <Link
-                    href="/upload"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Upload
-                  </Link>
-                </div>
-              </div>
-              <div className="hidden sm:block">
-                <div className="flex">
-                  <Link
-                    href="/login"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Login
-                  </Link>
-                </div>
-              </div>
-              <div className="hidden sm:block">
-                <div className="flex">
-                  <Link
-                    href="/signup"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
+            <div className="hidden sm:block">
+              <div className="flex">
+                <Link
+                  href="/upload"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Upload
+                </Link>
               </div>
             </div>
-          )}
+            {!!user ? (
+              <div className="flex gap-2">
+                <div className="hidden sm:block">
+                  <div className="flex">
+                    <Button
+                      onClick={logout}
+                      className="text-gray-100 bg-red-700 hover:bg-red-900 font-medium"
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="hidden sm:block">
+                  <div className="flex">
+                    <Link
+                      href="/login"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      Login
+                    </Link>
+                  </div>
+                </div>
+                <div className="hidden sm:block">
+                  <div className="flex">
+                    <Link
+                      href="/signup"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </nav>
     )

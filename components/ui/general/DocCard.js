@@ -10,9 +10,9 @@ import {
 import { Button } from "../button";
 import Link from "next/link";
 
-const DocCard = ({ id, title, description, url, thumbnail }) => {
+const DocCard = ({ id, title, author, thumbnail }) => {
   return (
-    <Card className="h-[100%]">
+    <Card className="h-[100%] hover:bg-gray-200">
       <Link href={`/book/${id}`}>
         <CardHeader>
           <Image
@@ -21,15 +21,13 @@ const DocCard = ({ id, title, description, url, thumbnail }) => {
             height={0}
             sizes="100vw"
             alt="image"
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: "auto", marginBottom: "0.625rem" }}
           />
           <CardTitle>{title}</CardTitle>
         </CardHeader>
-        {!!description && (
+        {!!author && (
           <CardContent>
-            <CardDescription className="line-clamp-3">
-              {description}
-            </CardDescription>
+            <CardDescription className="line-clamp-3">{author}</CardDescription>
           </CardContent>
         )}
       </Link>

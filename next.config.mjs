@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "149917248.v2.pressablecdn.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "peach-junior-antelope-272.mypinata.cloud",
+        port: "",
+      },
     ],
   },
   webpack(config, { nextRuntime }) {

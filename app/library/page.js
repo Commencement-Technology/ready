@@ -56,8 +56,7 @@ const Library = () => {
                 key={doc.$id}
                 id={doc.$id}
                 title={doc.title}
-                description={doc.description}
-                url={doc.url}
+                author={doc.author}
                 thumbnail={doc.thumbnail}
               />
             ))}

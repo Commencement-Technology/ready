@@ -58,6 +58,7 @@ const BookDetails = () => {
             </div>
             <div className="flex flex-col gap-4">
               <h1 className="text-2xl md:text-4xl">{data.title}</h1>
+              <p>{data?.author}</p>
               <p>{data.description}</p>
             </div>
           </div>
