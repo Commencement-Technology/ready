@@ -1,13 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import PageTitle from "@/components/ui/general/PageTitle";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { GlobalContext } from "@/services/GlobalContext";
+import { siteTitle } from "@/utils/content";
 import { uploadFile } from "@/utils/uploadFunction";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
 const Upload = () => {
@@ -75,10 +77,14 @@ const Upload = () => {
     console.log(res);
   };
 
+  useEffect(() => {
+    document.title = `Upload Book | ${siteTitle}`;
+  }, []);
+
   return (
     <div className="max-w-[1200px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center ">
-        <h1 className="md:text-4xl">Upload Doc</h1>
+      <main className="flex flex-col gap-8 row-start-2 max-w-[900px] mx-auto">
+        <PageTitle title={"Upload your book"} />
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -188,10 +194,11 @@ const Upload = () => {
               </Button>
             </div>
           </div>
-          <div className="mt-4 text-center">
+          <div className="mt-12 text-center">
             <Button
               type="submit"
               disabled={title.trim().length === 0 || url.length === 0}
+              className="py-6 px-20 text-lg"
             >
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
