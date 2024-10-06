@@ -10,7 +10,7 @@ import { siteTitle } from "@/utils/content";
 import { useContext, useEffect, useState } from "react";
 
 const Library = () => {
-  const { loading, getDocs } = useContext(GlobalContext);
+  const { loading, getDocs, user } = useContext(GlobalContext);
   const [docs, setDocs] = useState([]);
   const [view, setView] = useState("grid");
 
@@ -75,7 +75,7 @@ const Library = () => {
             </div>
           ) : (
             <div className="">
-              <DocTable docs={docs} />
+              <DocTable docs={docs} userId={user.$id} />
             </div>
           )
         ) : (

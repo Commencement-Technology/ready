@@ -38,6 +38,11 @@ const Upload = () => {
       const url = await res.json();
       setUrl(url);
       setUploading(false);
+      if (!!url) {
+        toast({
+          description: "Document uploaded successfully!",
+        });
+      }
     } catch (e) {
       console.log(e);
       setUploading(false);
@@ -76,6 +81,13 @@ const Upload = () => {
 
     const res = await uploadDoc(title, description, url, thumbnailUrl, author);
     console.log(res);
+
+    if (!!res) {
+      toast({
+        title: "Let's go!!",
+        description: "Your book has been uploaded successfully!",
+      });
+    }
   };
 
   useEffect(() => {

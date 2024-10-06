@@ -65,6 +65,40 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
+  const updateDoc = async (id, title, description, url, thumbnail, author) => {
+    try {
+      setLoading(true);
+      const res = await databases.updateDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
+        id,
+        { title, description, url, thumbnail, author, uploadedBy: user.$id }
+      );
+
+      setLoading(false);
+      return res;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const deleteDoc = async (id) => {
+    try {
+      setLoading(true);
+      const res = await databases.deleteDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
+        id
+      );
+      console.log(res);
+
+      setLoading(false);
+      return res;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   const getDocs = async () => {
     try {
       setLoading(true);
@@ -142,6 +176,8 @@ export const GlobalContextProvider = ({ children }) => {
         getDocs,
         getDoc,
         uploadDoc,
+        updateDoc,
+        deleteDoc,
         oAuth2Login,
       }}
     >
