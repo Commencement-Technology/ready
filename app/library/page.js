@@ -1,4 +1,5 @@
 "use client";
+import BookCardSkeleton from "@/components/skeletons/BookCardSkeleton";
 import DocCard from "@/components/ui/general/DocCard";
 import { GlobalContext } from "@/services/GlobalContext";
 import { pinata } from "@/utils/config";
@@ -6,7 +7,7 @@ import { siteTitle } from "@/utils/content";
 import { useContext, useEffect, useState } from "react";
 
 const Library = () => {
-  const { getDocs } = useContext(GlobalContext);
+  const { loading, getDocs } = useContext(GlobalContext);
   const [docs, setDocs] = useState([]);
 
   const getFiles = async () => {
@@ -41,7 +42,14 @@ const Library = () => {
       <h1 className="md:text-4xl">Library</h1>
 
       <div className="mt-8">
-        {docs.length > 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-16">
+            <BookCardSkeleton />
+            <BookCardSkeleton />
+            <BookCardSkeleton />
+            <BookCardSkeleton />
+          </div>
+        ) : docs.length !== 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
             {docs.map((doc) => (
               <DocCard
