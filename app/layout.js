@@ -5,6 +5,10 @@ import Navbar from "@/components/ui/general/Navbar";
 import Footer from "@/components/ui/general/Footer";
 import { Toaster } from "@/components/ui/toaster";
 
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",

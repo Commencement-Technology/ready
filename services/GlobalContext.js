@@ -1,6 +1,6 @@
 "use client";
 import { account, client, ID } from "@/app/appwrite";
-import { Databases } from "appwrite";
+import { Databases, OAuthProvider } from "appwrite";
 import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
@@ -8,6 +8,7 @@ export const GlobalContext = createContext();
 export const GlobalContextProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
 
   const databases = new Databases(client);
 
@@ -95,8 +96,39 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
+  const oAuth2Login = () => {
+    try {
+      const res = account.createOAuth2Session(
+        OAuthProvider.Google, // provider
+        "http://localhost:5001/library", // success (optional)
+        "http://localhost:5001/oauth2-failure", // failure (optional)
+        [] // scopes (optional)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getOAuth2Session = async () => {
+    try {
+      const session = await account.getSession("current");
+      setSessionId(session.$id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateOAuth2Session = async () => {
+    try {
+      const session = await account.updateSession(sessionId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     isLoggedIn();
+    getOAuth2Session();
   }, []);
 
   return (
@@ -110,6 +142,7 @@ export const GlobalContextProvider = ({ children }) => {
         getDocs,
         getDoc,
         uploadDoc,
+        oAuth2Login,
       }}
     >
       {children}
