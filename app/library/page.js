@@ -2,8 +2,8 @@
 import DocCard from "@/components/ui/general/DocCard";
 import { GlobalContext } from "@/services/GlobalContext";
 import { pinata } from "@/utils/config";
-import Link from "next/link";
-import { useEffect, useContext, useState } from "react";
+import { siteTitle } from "@/utils/content";
+import { useContext, useEffect, useState } from "react";
 
 const Library = () => {
   const { getDocs } = useContext(GlobalContext);
@@ -30,6 +30,10 @@ const Library = () => {
     return () => {
       mounted = false;
     };
+  }, []);
+
+  useEffect(() => {
+    document.title = `Library | ${siteTitle}`;
   }, []);
 
   return (

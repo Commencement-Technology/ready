@@ -7,8 +7,9 @@ import SiteLogoFixed from "@/components/ui/general/SiteLogoFixed";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
+import { siteTitle } from "@/utils/content";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 const SignUp = () => {
   const { signUp, loggedInUser, oAuth2Login } = useContext(GlobalContext);
@@ -21,6 +22,10 @@ const SignUp = () => {
     e.preventDefault();
     signUp(email, password, name);
   };
+
+  useEffect(() => {
+    document.title = `Sign up | ${siteTitle}`;
+  }, []);
 
   if (loggedInUser) {
     return router.push("/library");

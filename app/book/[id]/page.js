@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { GlobalContext } from "@/services/GlobalContext";
+import { siteTitle } from "@/utils/content";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -30,6 +31,10 @@ const BookDetails = () => {
       mounted = false;
     };
   }, [id]);
+
+  useEffect(() => {
+    document.title = `${data?.title} | ${siteTitle}`;
+  }, [data]);
 
   return (
     <div className="max-w-[1300px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">

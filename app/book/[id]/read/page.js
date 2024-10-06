@@ -1,5 +1,6 @@
 "use client";
 import { GlobalContext } from "@/services/GlobalContext";
+import { siteTitle } from "@/utils/content";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
@@ -49,6 +50,10 @@ const ReadBook = () => {
   useEffect(() => {
     getFile();
   }, [url]);
+
+  useEffect(() => {
+    document.title = `Reading... | ${siteTitle}`;
+  }, []);
 
   return (
     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.js">
