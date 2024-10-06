@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 const Login = () => {
-  const { login, loggedInUser, oAuth2Login } = useContext(GlobalContext);
+  const { login, user, oAuth2Login } = useContext(GlobalContext);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +26,7 @@ const Login = () => {
     document.title = `Login | ${siteTitle}`;
   }, []);
 
-  if (!!loggedInUser) {
+  if (!!user) {
     return router.push("/library");
   }
 

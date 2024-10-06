@@ -6,7 +6,7 @@ import { createContext, useEffect, useState } from "react";
 export const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
 
@@ -16,7 +16,7 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await account.get();
-      setLoggedInUser(res);
+      setUser(res);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -37,7 +37,7 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const session = await account.createEmailPasswordSession(email, password);
-      setLoggedInUser(await account.get());
+      setUser(await account.get());
     } catch (error) {
       setLoading(true);
     }
@@ -45,7 +45,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   const logout = async () => {
     await account.deleteSession("current");
-    setLoggedInUser(null);
+    setUser(null);
   };
 
   const uploadDoc = async (title, description, url, thumbnail, author) => {
@@ -55,7 +55,7 @@ export const GlobalContextProvider = ({ children }) => {
         process.env.NEXT_PUBLIC_DATABASE_ID,
         process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
         ID.unique(),
-        { title, description, url, thumbnail, author }
+        { title, description, url, thumbnail, author, uploadedBy: user.$id }
       );
 
       setLoading(false);
@@ -114,7 +114,7 @@ export const GlobalContextProvider = ({ children }) => {
       const session = await account.getSession("current");
       setSessionId(session.$id);
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -122,7 +122,7 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       const session = await account.updateSession(sessionId);
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -135,7 +135,7 @@ export const GlobalContextProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         loading,
-        loggedInUser,
+        user,
         login,
         signUp,
         logout,

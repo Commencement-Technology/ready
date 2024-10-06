@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { useContext } from "react";
 import { Button } from "../button";
 import { disableNavFooterForPaths } from "@/utils/disableNavFooter";
+import { siteTitle } from "@/utils/content";
 
 const Navbar = () => {
-  const { loggedInUser, logout } = useContext(GlobalContext);
+  const { user, logout } = useContext(GlobalContext);
   const path = usePathname();
 
   return (
@@ -16,10 +17,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between py-4 px-4">
           <div className="flex-shrink-0">
             <Link href="/" className="text-white text-xl font-bold">
-              Ready
+              {siteTitle}
             </Link>
           </div>
-          {loggedInUser ? (
+          {!!user ? (
             <div className="flex gap-2">
               <div className="hidden sm:block">
                 <div className="flex">
