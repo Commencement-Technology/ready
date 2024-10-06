@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import OAuthLoginButton from "@/components/ui/buttons/OAuthLoginButton";
 import AuthChoice from "@/components/ui/general/AuthChoice";
 import PageTitle from "@/components/ui/general/PageTitle";
+import SiteLogoFixed from "@/components/ui/general/SiteLogoFixed";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
@@ -27,6 +28,7 @@ const SignUp = () => {
 
   return (
     <div className="p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)] max-w-[400px] mx-auto">
+      <SiteLogoFixed />
       <PageTitle title="Sign Up" />
       <section className="flex flex-col gap-8 mt-12">
         <form onSubmit={handleSubmit}>
