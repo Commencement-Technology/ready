@@ -14,6 +14,7 @@ import { FileUploader } from "react-drag-drop-files";
 
 const Upload = () => {
   const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
@@ -73,7 +74,7 @@ const Upload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await uploadDoc(title, description, url, thumbnailUrl);
+    const res = await uploadDoc(title, description, url, thumbnailUrl, author);
     console.log(res);
   };
 
@@ -88,13 +89,21 @@ const Upload = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
+            <div className="flex flex-col gap-4">
+              <Input
+                type="text"
+                placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+              <Input
+                type="text"
+                placeholder="Author's name"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
+            </div>
             <div className="flex flex-col gap-4">
               <FileUploader
                 handleChange={handleChange}

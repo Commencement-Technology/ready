@@ -48,14 +48,14 @@ export const GlobalContextProvider = ({ children }) => {
     setLoggedInUser(null);
   };
 
-  const uploadDoc = async (title, description, url, thumbnail = null) => {
+  const uploadDoc = async (title, description, url, thumbnail, author) => {
     try {
       setLoading(true);
       const res = await databases.createDocument(
         process.env.NEXT_PUBLIC_DATABASE_ID,
         process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
         ID.unique(),
-        { title, description, url, thumbnail }
+        { title, description, url, thumbnail, author }
       );
 
       setLoading(false);
