@@ -38,17 +38,16 @@ const Library = () => {
 
       <div className="mt-8">
         {docs.length > 0 ? (
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
             {docs.map((doc) => (
-              <Link key={doc.$id} href={`/book/${doc.$id}`}>
-                <DocCard
-                  key={doc.$id}
-                  title={doc.title}
-                  description={doc.description}
-                  url={doc.url}
-                  thumbnail={doc.thumbnail}
-                />
-              </Link>
+              <DocCard
+                key={doc.$id}
+                id={doc.$id}
+                title={doc.title}
+                description={doc.description}
+                url={doc.url}
+                thumbnail={doc.thumbnail}
+              />
             ))}
           </div>
         ) : (
