@@ -9,10 +9,12 @@ import { siteTitle } from "@/utils/content";
 import { uploadFile } from "@/utils/uploadFunction";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useContext, useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
-const Upload = () => {
+const EditBook = () => {
+  const [data, setData] = useState(null);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
@@ -24,8 +26,39 @@ const Upload = () => {
   const [uploading, setUploading] = useState(false);
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
 
-  const { loading, uploadDoc } = useContext(GlobalContext);
+  const { loading, getDoc, updateDoc } = useContext(GlobalContext);
   const { toast } = useToast();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchDoc = async () => {
+      const res = await getDoc(id);
+
+      if (mounted) {
+        setData(res);
+      }
+    };
+
+    fetchDoc();
+
+    return () => {
+      mounted = false;
+    };
+  }, [id]);
+
+  useEffect(() => {
+    if (!!data) {
+      setTitle(data.title);
+      setAuthor(data.author);
+      setDescription(data.description);
+      setThumbnailSrc(data.thumbnail);
+      setUrl(data.url);
+      setThumbnailUrl(data.thumbnail);
+    }
+  }, [data]);
 
   const uploadDocFile = async () => {
     if (!file) {
@@ -40,7 +73,7 @@ const Upload = () => {
       setUploading(false);
       if (!!url) {
         toast({
-          description: "Document uploaded successfully!",
+          description: "Document updated successfully!",
         });
       }
     } catch (e) {
@@ -60,6 +93,11 @@ const Upload = () => {
       const url = await res.json();
       setThumbnailUrl(url);
       setThumbnailUploading(false);
+      if (!!url) {
+        toast({
+          description: "Thumbnail updated successfully!",
+        });
+      }
     } catch (e) {
       console.log(e);
       setThumbnailUploading(false);
@@ -79,25 +117,32 @@ const Upload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await uploadDoc(title, description, url, thumbnailUrl, author);
+    const res = await updateDoc(
+      title,
+      description,
+      url,
+      thumbnailUrl,
+      author,
+      id
+    );
     console.log(res);
 
     if (!!res) {
       toast({
-        title: "Book uploaded!",
-        description: "Your book details has been added to the library!",
+        title: "Book Updated!",
+        description: "Your book details has been updated successfully.",
       });
     }
   };
 
   useEffect(() => {
-    document.title = `Upload Book | ${siteTitle}`;
-  }, []);
+    document.title = `Edit ${data?.title} | ${siteTitle}`;
+  }, [data]);
 
   return (
     <div className="max-w-[1200px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 max-w-[900px] mx-auto">
-        <PageTitle title={"Upload your book"} />
+        <PageTitle title={"Edit your book"} />
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -154,7 +199,7 @@ const Upload = () => {
                 {uploading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  "Upload Document"
+                  "Update Document"
                 )}
               </Button>
             </div>
@@ -198,19 +243,23 @@ const Upload = () => {
                         width={200}
                         height={400}
                       />
-                      <p>{image.name}</p>
+                      {/* <p>{image.name}</p> */}
                     </div>
                   )}
                 </div>
               </FileUploader>
               <Button
-                disabled={thumbnailUploading || !thumbnailSrc}
+                disabled={
+                  thumbnailUploading ||
+                  !thumbnailSrc ||
+                  thumbnailSrc === data.thumbnail
+                }
                 onClick={uploadImageFile}
               >
                 {thumbnailUploading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  "Upload thumbnail"
+                  "Update thumbnail"
                 )}
               </Button>
             </div>
@@ -218,13 +267,17 @@ const Upload = () => {
           <div className="mt-12 text-center">
             <Button
               type="submit"
-              disabled={title.trim().length === 0 || url.length === 0}
+              disabled={
+                title.trim() === data?.title &&
+                author.trim() === data?.author &&
+                !!thumbnailUrl
+              }
               className="py-6 px-20 text-lg"
             >
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Submit"
+                "Update"
               )}
             </Button>
           </div>
@@ -234,4 +287,4 @@ const Upload = () => {
   );
 };
 
-export default Upload;
+export default EditBook;
