@@ -10,7 +10,7 @@ import { uploadFile } from "@/utils/uploadFunction";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useState, useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
 const EditBook = () => {
@@ -55,6 +55,8 @@ const EditBook = () => {
       setAuthor(data.author);
       setDescription(data.description);
       setThumbnailSrc(data.thumbnail);
+      setUrl(data.url);
+      setThumbnailUrl(data.thumbnail);
     }
   }, [data]);
 
@@ -91,6 +93,11 @@ const EditBook = () => {
       const url = await res.json();
       setThumbnailUrl(url);
       setThumbnailUploading(false);
+      if (!!url) {
+        toast({
+          description: "Thumbnail updated successfully!",
+        });
+      }
     } catch (e) {
       console.log(e);
       setThumbnailUploading(false);
@@ -110,13 +117,20 @@ const EditBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await updateDoc(title, description, url, thumbnailUrl, author);
+    const res = await updateDoc(
+      title,
+      description,
+      url,
+      thumbnailUrl,
+      author,
+      id
+    );
     console.log(res);
 
     if (!!res) {
       toast({
-        title: "Let's go!!",
-        description: "Your book has been updated successfully!",
+        title: "Book Updated!",
+        description: "Your book details has been updated successfully.",
       });
     }
   };
@@ -254,7 +268,9 @@ const EditBook = () => {
             <Button
               type="submit"
               disabled={
-                title.trim() === data?.title && author.trim() === data?.author
+                title.trim() === data?.title &&
+                author.trim() === data?.author &&
+                !!thumbnailUrl
               }
               className="py-6 px-20 text-lg"
             >

@@ -14,16 +14,19 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { useToast } from "@/hooks/use-toast";
 
 const DocTable = ({ docs, userId }) => {
   const { deleteDoc } = useContext(GlobalContext);
+  const { toast } = useToast();
 
   const removeDoc = async (id) => {
     const res = await deleteDoc(id);
 
     if (!!res) {
       toast({
-        description: "Document deleted successfully!",
+        title: "Book deleted!",
+        description: "Your book has been removed from the library",
       });
     }
   };

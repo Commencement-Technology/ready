@@ -65,7 +65,7 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
-  const updateDoc = async (id, title, description, url, thumbnail, author) => {
+  const updateDoc = async (title, description, url, thumbnail, author, id) => {
     try {
       setLoading(true);
       const res = await databases.updateDocument(

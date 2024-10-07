@@ -84,8 +84,8 @@ const Upload = () => {
 
     if (!!res) {
       toast({
-        title: "Let's go!!",
-        description: "Your book has been uploaded successfully!",
+        title: "Book uploaded!",
+        description: "Your book details has been added to the library!",
       });
     }
   };
