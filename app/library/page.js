@@ -76,7 +76,7 @@ const Library = () => {
             </div>
           ) : (
             <div className="">
-              <DocTable docs={docs} userId={user.$id} />
+              <DocTable docs={docs} userId={user?.$id} />
             </div>
           )
         ) : (

@@ -25,6 +25,16 @@ const Footer = () => {
               </Link>
             </div>
           </div>
+          <div className="hidden sm:block sm:ml-6">
+            <div className="flex space-x-4">
+              <Link
+                href="/about"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                About
+              </Link>
+            </div>
+          </div>
         </div>
         <p className="text-sm text-gray-400 text-center pt-8">
           &copy; <span id="year">{new Date().getFullYear()}</span> Ready. All

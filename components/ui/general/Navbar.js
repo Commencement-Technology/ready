@@ -24,6 +24,16 @@ const Navbar = () => {
             <div className="hidden sm:block">
               <div className="flex">
                 <Link
+                  href="/about"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  About
+                </Link>
+              </div>
+            </div>
+            <div className="hidden sm:block">
+              <div className="flex">
+                <Link
                   href="/library"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
@@ -70,7 +80,7 @@ const Navbar = () => {
                   <div className="flex">
                     <Link
                       href="/signup"
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                      className="text-gray-700 bg-white hover:bg-gray-500 hover:text-white px-4 py-2 rounded-md text-sm font-bold"
                     >
                       Sign Up
                     </Link>

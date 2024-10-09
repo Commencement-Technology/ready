@@ -18,7 +18,7 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
 
   return (
     <Card className="relative group h-[100%] hover:bg-gray-100 flex flex-col justify-between">
-      {uploadedBy === user.$id && (
+      {uploadedBy === user?.$id && (
         <>
           <Button
             className="absolute right-0 opacity-0 group-hover:opacity-100"
