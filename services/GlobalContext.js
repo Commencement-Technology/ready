@@ -134,8 +134,8 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       const res = account.createOAuth2Session(
         OAuthProvider.Google, // provider
-        "http://localhost:5001/library", // success (optional)
-        "http://localhost:5001/oauth2-failure", // failure (optional)
+        process.env.NEXT_PUBLIC_GOOGLE_OAUTH_SUCCESS_URI, // success (optional)
+        process.env.NEXT_PUBLIC_GOOGLE_OAUTH_FAILURE_URI, // failure (optional)
         [] // scopes (optional)
       );
     } catch (error) {
