@@ -43,7 +43,7 @@ const Library = () => {
 
   return (
     <div className="max-w-[1300px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="md:text-4xl">Library</h1>
+      <h1 className="text-3xl md:text-5xl">Library</h1>
 
       <div className="flex justify-between items-center mt-4">
         <div>Browse all the uploaded books</div>
@@ -70,6 +70,7 @@ const Library = () => {
                   title={doc.title}
                   author={doc.author}
                   thumbnail={doc.thumbnail}
+                  uploadedBy={doc.uploadedBy}
                 />
               ))}
             </div>
