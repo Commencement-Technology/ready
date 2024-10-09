@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { displayDate } from "@/utils/functions";
 
 const DocTable = ({ docs, userId }) => {
   const { deleteDoc } = useContext(GlobalContext);
@@ -38,6 +39,7 @@ const DocTable = ({ docs, userId }) => {
           <TableHead className="w-[240px]">Title</TableHead>
           <TableHead className="w-[200px]">Author</TableHead>
           <TableHead>Description</TableHead>
+          <TableHead className="w-[120px]">Uploaded at</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -49,8 +51,17 @@ const DocTable = ({ docs, userId }) => {
                 {doc.title}
               </TableCell>
             </Link>
-            <TableCell>{doc.author}</TableCell>
-            <TableCell>{doc.description}</TableCell>
+            <TableCell title={!!doc.author ? `${doc?.author}` : `No author`}>
+              {!!doc.author ? doc.author : "-"}
+            </TableCell>
+            <TableCell
+              title={
+                !!doc.description ? `${doc?.description}` : `No description`
+              }
+            >
+              {!!doc.description ? doc.description : "-"}
+            </TableCell>
+            <TableCell>{displayDate(doc?.$createdAt)}</TableCell>
             <TableCell className="text-right flex gap-2">
               <Button asChild>
                 <Link href={`/book/${doc.$id}/read`}>Read</Link>
@@ -87,7 +98,7 @@ const DocTable = ({ docs, userId }) => {
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell colSpan={4}>Total</TableCell>
           <TableCell className="text-right">{docs.length} Docs</TableCell>
         </TableRow>
       </TableFooter>
