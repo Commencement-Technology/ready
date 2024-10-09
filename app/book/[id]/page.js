@@ -1,13 +1,13 @@
 "use client";
 import BookDetailsSkeleton from "@/components/skeletons/BookDetailsSkeleton";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { GlobalContext } from "@/services/GlobalContext";
 import { siteTitle } from "@/utils/content";
+import { displayDate } from "@/utils/functions";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const BookDetails = () => {
   const [data, setData] = useState(null);
@@ -58,6 +58,9 @@ const BookDetails = () => {
             </div>
             <div className="flex flex-col gap-4">
               <h1 className="text-2xl md:text-4xl">{data.title}</h1>
+              <p className="text-gray-400">
+                Uploaded on {displayDate(data?.$createdAt)}
+              </p>
               <p>{data?.author}</p>
               <p>{data.description}</p>
             </div>
