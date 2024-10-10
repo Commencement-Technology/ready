@@ -9,7 +9,7 @@ import { siteTitle } from "@/utils/content";
 import { uploadFile } from "@/utils/uploadFunction";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
@@ -22,12 +22,14 @@ const EditBook = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
   const [thumbnailSrc, setThumbnailSrc] = useState("");
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("");
   const [url, setUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
 
   const { loading, getDoc, updateDoc } = useContext(GlobalContext);
   const { toast } = useToast();
+  const router = useRouter();
 
   const { id } = useParams();
 
@@ -57,6 +59,7 @@ const EditBook = () => {
       setThumbnailSrc(data.thumbnail);
       setUrl(data.url);
       setThumbnailUrl(data.thumbnail);
+      setFileName(data?.filename);
     }
   }, [data]);
 
@@ -123,15 +126,16 @@ const EditBook = () => {
       url,
       thumbnailUrl,
       author,
-      id
+      id,
+      fileName
     );
-    console.log(res);
 
     if (!!res) {
       toast({
         title: "Book Updated!",
         description: "Your book details has been updated successfully.",
       });
+      router.push("/library");
     }
   };
 
@@ -183,10 +187,12 @@ const EditBook = () => {
                   });
                 }}
               >
-                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300">
+                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300 cursor-pointer">
                   {!file ? (
                     <div className="text-center text-gray-500">
-                      <p className="text-md">Drop or upload a PDF here</p>
+                      <p className="text-md">
+                        {!!fileName ? fileName : "Drop or upload a PDF here"}
+                      </p>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center">
@@ -230,7 +236,7 @@ const EditBook = () => {
                   });
                 }}
               >
-                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300">
+                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300 cursor-pointer">
                   {!thumbnailSrc ? (
                     <div className="text-center text-gray-500">
                       <p className="text-md">Drop or upload an image here</p>
@@ -265,15 +271,7 @@ const EditBook = () => {
             </div>
           </div>
           <div className="mt-12 text-center">
-            <Button
-              type="submit"
-              disabled={
-                title.trim() === data?.title &&
-                author.trim() === data?.author &&
-                !!thumbnailUrl
-              }
-              className="py-6 px-20 text-lg"
-            >
+            <Button type="submit" className="py-6 px-20 text-lg">
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (

@@ -21,6 +21,7 @@ const Upload = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
   const [thumbnailSrc, setThumbnailSrc] = useState("");
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState(null);
   const [url, setUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
@@ -69,6 +70,7 @@ const Upload = () => {
   };
 
   const handleChange = (e) => {
+    setFileName(e?.name);
     setFile(e);
   };
 
@@ -81,7 +83,14 @@ const Upload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await uploadDoc(title, description, url, thumbnailUrl, author);
+    const res = await uploadDoc(
+      title,
+      description,
+      url,
+      thumbnailUrl,
+      author,
+      fileName
+    );
     console.log(res);
 
     if (!!res) {
@@ -147,7 +156,7 @@ const Upload = () => {
                   });
                 }}
               >
-                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300">
+                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300 cursor-pointer">
                   {!file ? (
                     <div className="text-center text-gray-500">
                       <p className="text-md">Drop or upload a PDF here</p>
@@ -194,7 +203,7 @@ const Upload = () => {
                   });
                 }}
               >
-                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300">
+                <div className="w-full max-w-lg p-6 border-2 border-dashed rounded-lg transition-colors border-gray-300 cursor-pointer">
                   {!thumbnailSrc ? (
                     <div className="text-center text-gray-500">
                       <p className="text-md">Drop or upload an image here</p>

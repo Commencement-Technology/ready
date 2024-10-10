@@ -56,14 +56,29 @@ export const GlobalContextProvider = ({ children }) => {
     setUser(null);
   };
 
-  const uploadDoc = async (title, description, url, thumbnail, author) => {
+  const uploadDoc = async (
+    title,
+    description,
+    url,
+    thumbnail,
+    author,
+    filename
+  ) => {
     try {
       setLoading(true);
       const res = await databases.createDocument(
         process.env.NEXT_PUBLIC_DATABASE_ID,
         process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
         ID.unique(),
-        { title, description, url, thumbnail, author, uploadedBy: user.$id }
+        {
+          title,
+          description,
+          url,
+          thumbnail,
+          author,
+          uploadedBy: user.$id,
+          filename,
+        }
       );
 
       setLoading(false);
@@ -73,14 +88,30 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
-  const updateDoc = async (title, description, url, thumbnail, author, id) => {
+  const updateDoc = async (
+    title,
+    description,
+    url,
+    thumbnail,
+    author,
+    id,
+    filename
+  ) => {
     try {
       setLoading(true);
       const res = await databases.updateDocument(
         process.env.NEXT_PUBLIC_DATABASE_ID,
         process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
         id,
-        { title, description, url, thumbnail, author, uploadedBy: user.$id }
+        {
+          title,
+          description,
+          url,
+          thumbnail,
+          author,
+          uploadedBy: user.$id,
+          filename,
+        }
       );
 
       setLoading(false);
