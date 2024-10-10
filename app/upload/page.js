@@ -9,6 +9,7 @@ import { siteTitle } from "@/utils/content";
 import { uploadFile } from "@/utils/uploadFunction";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useContext, useState, useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
@@ -24,8 +25,9 @@ const Upload = () => {
   const [uploading, setUploading] = useState(false);
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
 
-  const { loading, uploadDoc } = useContext(GlobalContext);
+  const { loading, uploadDoc, user } = useContext(GlobalContext);
   const { toast } = useToast();
+  const router = useRouter();
 
   const uploadDocFile = async () => {
     if (!file) {
@@ -87,12 +89,19 @@ const Upload = () => {
         title: "Book uploaded!",
         description: "Your book details has been added to the library!",
       });
+      router.push("/library");
     }
   };
 
   useEffect(() => {
     document.title = `Upload Book | ${siteTitle}`;
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user]);
 
   return (
     <div className="max-w-[1200px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">
