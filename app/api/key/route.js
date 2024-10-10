@@ -19,7 +19,6 @@ export async function GET(req, res) {
     });
     return NextResponse.json(keyData, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { text: "Error creating API Key:" },
       { status: 500 }

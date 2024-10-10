@@ -129,7 +129,6 @@ export const GlobalContextProvider = ({ children }) => {
         process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
         id
       );
-      console.log(res);
 
       setLoading(false);
       return res;
@@ -178,7 +177,7 @@ export const GlobalContextProvider = ({ children }) => {
         [] // scopes (optional)
       );
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 

@@ -25,7 +25,6 @@ const Library = () => {
       const res = await getDocs();
 
       if (mounted) {
-        console.log(res);
         setDocs(res.documents);
       }
     };

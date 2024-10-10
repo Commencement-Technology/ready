@@ -48,7 +48,7 @@ const ReadBook = () => {
       setFile(data.data);
       return;
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 

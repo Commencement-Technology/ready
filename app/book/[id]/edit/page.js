@@ -80,7 +80,6 @@ const EditBook = () => {
         });
       }
     } catch (e) {
-      console.log(e);
       setUploading(false);
     }
   };
@@ -102,7 +101,6 @@ const EditBook = () => {
         });
       }
     } catch (e) {
-      console.log(e);
       setThumbnailUploading(false);
     }
   };

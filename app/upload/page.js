@@ -47,7 +47,6 @@ const Upload = () => {
         });
       }
     } catch (e) {
-      console.log(e);
       setUploading(false);
     }
   };
@@ -64,7 +63,6 @@ const Upload = () => {
       setThumbnailUrl(url);
       setThumbnailUploading(false);
     } catch (e) {
-      console.log(e);
       setThumbnailUploading(false);
     }
   };
@@ -91,7 +89,6 @@ const Upload = () => {
       author,
       fileName
     );
-    console.log(res);
 
     if (!!res) {
       toast({

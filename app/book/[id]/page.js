@@ -22,7 +22,6 @@ const BookDetails = () => {
       const res = await getDoc(id);
 
       if (mounted) {
-        console.log(res);
         setData(res);
       }
     };
