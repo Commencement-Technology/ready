@@ -8,11 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
 import { siteTitle } from "@/utils/content";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useState, useEffect } from "react";
 
 const SignUp = () => {
-  const { signUp, user, oAuth2Login } = useContext(GlobalContext);
+  const { loading, signUp, user, oAuth2Login, errorMessage } =
+    useContext(GlobalContext);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,6 +38,9 @@ const SignUp = () => {
       <SiteLogoFixed />
       <PageTitle title="Sign Up" />
       <section className="flex flex-col gap-8 mt-12">
+        {!!errorMessage && (
+          <p className="text-center text-sm text-red-400">{errorMessage}</p>
+        )}
         <form onSubmit={handleSubmit}>
           <section className="flex flex-col gap-6">
             <Input
@@ -58,7 +63,18 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit">Sign Up</Button>
+            <Button
+              type="submit"
+              disabled={
+                email.trim().length === 0 || password.trim().length === 0
+              }
+            >
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Sign up"
+              )}
+            </Button>
           </section>
         </form>
         <AuthChoice

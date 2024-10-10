@@ -8,11 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
 import { siteTitle } from "@/utils/content";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 const Login = () => {
-  const { login, user, oAuth2Login } = useContext(GlobalContext);
+  const { loading, login, user, oAuth2Login, errorMessage } =
+    useContext(GlobalContext);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +37,9 @@ const Login = () => {
       <SiteLogoFixed />
       <PageTitle title="Login" />
       <section className="flex flex-col gap-8 mt-12">
+        {!!errorMessage && (
+          <p className="text-center text-sm text-red-400">{errorMessage}</p>
+        )}
         <form onSubmit={handleSubmit}>
           <section className="flex flex-col gap-6">
             <Input
@@ -51,7 +56,18 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit">Login</Button>
+            <Button
+              type="submit"
+              disabled={
+                email.trim().length === 0 || password.trim().length === 0
+              }
+            >
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Login"
+              )}
+            </Button>
           </section>
         </form>
         <AuthChoice

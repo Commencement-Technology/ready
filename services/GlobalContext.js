@@ -9,6 +9,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const databases = new Databases(client);
 
@@ -26,9 +27,12 @@ export const GlobalContextProvider = ({ children }) => {
   const signUp = async (email, password, name) => {
     try {
       setLoading(true);
+      setErrorMessage("");
       const res = await account.create(ID.unique(), email, password, name);
+      setLoading(false);
       return res;
     } catch (error) {
+      setErrorMessage(error.message);
       setLoading(false);
     }
   };
@@ -36,10 +40,14 @@ export const GlobalContextProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setLoading(true);
+      setErrorMessage("");
       const session = await account.createEmailPasswordSession(email, password);
       setUser(await account.get());
+      setLoading(false);
+      return session;
     } catch (error) {
-      setLoading(true);
+      setErrorMessage(error.message);
+      setLoading(false);
     }
   };
 
@@ -171,6 +179,7 @@ export const GlobalContextProvider = ({ children }) => {
         loading,
         user,
         login,
+        errorMessage,
         signUp,
         logout,
         getDocs,
