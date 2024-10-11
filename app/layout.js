@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { ThemeProvider } from "@/components/theme-provider";
 config.autoAddCss = false;
 
 const geistSans = localFont({
@@ -32,10 +33,17 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Navbar />
-          {children}
-          <Footer />
-          <Toaster />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+            <Footer />
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </GlobalContextProvider>

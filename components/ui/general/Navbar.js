@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { Button } from "../button";
 import { disableNavFooterForPaths } from "@/utils/disableNavFooter";
 import { siteTitle } from "@/utils/content";
+import DarkModeToggle from "../buttons/DarkModeToggle";
 
 const Navbar = () => {
   const { user, logout } = useContext(GlobalContext);
@@ -21,6 +22,11 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex gap-2">
+            <div className="hidden sm:block">
+              <div className="flex">
+                <DarkModeToggle />
+              </div>
+            </div>
             <div className="hidden sm:block">
               <div className="flex">
                 <Link
