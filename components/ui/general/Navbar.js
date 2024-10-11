@@ -1,5 +1,4 @@
 "use client";
-import { AccountDropdown } from "@/components/dropdowns/AccountDropDown";
 import { GlobalContext } from "@/services/GlobalContext";
 import { siteTitle } from "@/utils/content";
 import { disableNavFooterForPaths } from "@/utils/disableNavFooter";
@@ -7,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
 import DarkModeToggle from "../buttons/DarkModeToggle";
+import { AccountDropdown } from "@/components/dropdowns/AccountDropdown";
 
 const Navbar = () => {
   const { user, logout } = useContext(GlobalContext);
