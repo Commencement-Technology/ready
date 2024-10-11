@@ -1,8 +1,9 @@
+"use client";
 import { GlobalContext } from "@/services/GlobalContext";
-import { Pencil } from "lucide-react";
+import { Bookmark, BookmarkX, Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "../button";
 import {
   Card,
@@ -12,9 +13,42 @@ import {
   CardHeader,
   CardTitle,
 } from "../card";
+import { useRouter } from "next/navigation";
 
 const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
-  const { user } = useContext(GlobalContext);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  const { user, addToWishlist, deleteWishlistItem, wishlistedItems } =
+    useContext(GlobalContext);
+  const router = useRouter();
+
+  const handleAddWishlist = async () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    const res = await addToWishlist(id, user.$id);
+  };
+
+  const removeWishlistItem = async () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    const res = await deleteWishlistItem(id, user.$id);
+  };
+
+  const checkIfWishlisted = (id) => {
+    const value = !!wishlistedItems.find((item) => item.docId === id);
+    setIsWishlisted(value);
+    return value;
+  };
+
+  useEffect(() => {
+    checkIfWishlisted(id);
+  }, [wishlistedItems]);
 
   return (
     <Card className="relative group h-[100%] hover:bg-gray-100 flex flex-col justify-between">
@@ -53,6 +87,23 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
         <Button asChild className="w-[100%]">
           <Link href={`/book/${id}/read`}>Read Now</Link>
         </Button>
+        {isWishlisted ? (
+          <Button
+            className="ml-2"
+            onClick={removeWishlistItem}
+            title="Remove bookmark"
+          >
+            <BookmarkX />
+          </Button>
+        ) : (
+          <Button
+            className="ml-2"
+            onClick={handleAddWishlist}
+            title="Bookmark this"
+          >
+            <Bookmark />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
