@@ -1,6 +1,6 @@
 "use client";
 import { account, client, ID } from "@/app/appwrite";
-import { Databases, OAuthProvider } from "appwrite";
+import { Databases, OAuthProvider, Query } from "appwrite";
 import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
@@ -10,6 +10,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [wishlistedItems, setWishlistedItems] = useState([]);
 
   const databases = new Databases(client);
 
@@ -168,6 +169,107 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
+  const addToWishlist = async (docId, userId) => {
+    try {
+      setLoading(true);
+
+      // Step 1: Check if the document already exists in the wishlist
+      const existingWishlist = await databases.listDocuments(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
+        [
+          Query.equal("docId", docId), // Filter by docId
+          Query.equal("userId", userId), // Filter by userId
+        ]
+      );
+
+      if (existingWishlist.total > 0) {
+        // If the document exists, don't add a duplicate
+        setLoading(false);
+        return { success: false, message: "Item already in wishlist" };
+      }
+
+      const res = await databases.createDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
+        ID.unique(),
+        {
+          docId,
+          userId,
+        }
+      );
+
+      setLoading(false);
+      return res;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const getAllWishlistItems = async () => {
+    try {
+      setLoading(true);
+      const res = await databases.listDocuments(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID
+      );
+
+      setLoading(false);
+      return res;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const getWishlistItemsByUser = async (userId) => {
+    try {
+      setLoading(true);
+      const res = await databases.listDocuments(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
+        [Query.equal("userId", userId)]
+      );
+
+      setWishlistedItems(res.documents);
+      setLoading(false);
+      return res;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const deleteWishlistItem = async (docId, userId) => {
+    try {
+      setLoading(true);
+
+      //1st step - Retrieve the document filtered by the user
+      const docRes = await databases.listDocuments(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
+        [Query.equal("docId", docId), Query.equal("userId", userId)]
+      );
+      console.log(docRes);
+
+      if (docRes.documents.length === 0) {
+        throw new Error("No matching wishlist item found");
+      }
+
+      const id = docRes.documents[0].$id; // Get the document ID
+
+      //2nd step
+      const deleteRes = await databases.deleteDocument(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
+        id
+      );
+
+      setLoading(false);
+      return deleteRes;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   const oAuth2Login = () => {
     try {
       const res = account.createOAuth2Session(
@@ -203,6 +305,12 @@ export const GlobalContextProvider = ({ children }) => {
     getOAuth2Session();
   }, []);
 
+  useEffect(() => {
+    if (!!user) {
+      getWishlistItemsByUser(user?.$id);
+    }
+  }, [user]);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -217,7 +325,11 @@ export const GlobalContextProvider = ({ children }) => {
         uploadDoc,
         updateDoc,
         deleteDoc,
+        addToWishlist,
+        getWishlistItemsByUser,
+        deleteWishlistItem,
         oAuth2Login,
+        wishlistedItems,
       }}
     >
       {children}
