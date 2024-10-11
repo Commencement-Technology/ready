@@ -15,6 +15,7 @@ import {
 } from "../card";
 import { useRouter } from "next/navigation";
 import { Toggle } from "../toggle";
+import { useToast } from "@/hooks/use-toast";
 
 const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -22,6 +23,7 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
   const { user, addToWishlist, deleteWishlistItem, wishlistedItems } =
     useContext(GlobalContext);
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleAddWishlist = async () => {
     if (!user) {
@@ -30,6 +32,12 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
     }
 
     const res = await addToWishlist(id, user.$id);
+
+    if (!!res) {
+      toast({
+        description: "Book added to bookmarks successfully!",
+      });
+    }
   };
 
   const removeWishlistItem = async () => {
@@ -39,6 +47,12 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
     }
 
     const res = await deleteWishlistItem(id, user.$id);
+
+    if (!!res) {
+      toast({
+        description: "Book removed from bookmarks successfully!",
+      });
+    }
   };
 
   const checkIfWishlisted = (id) => {

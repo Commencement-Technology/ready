@@ -1,11 +1,11 @@
 "use client";
+import { AccountDropdown } from "@/components/dropdowns/AccountDropDown";
 import { GlobalContext } from "@/services/GlobalContext";
+import { siteTitle } from "@/utils/content";
+import { disableNavFooterForPaths } from "@/utils/disableNavFooter";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
-import { Button } from "../button";
-import { disableNavFooterForPaths } from "@/utils/disableNavFooter";
-import { siteTitle } from "@/utils/content";
 import DarkModeToggle from "../buttons/DarkModeToggle";
 
 const Navbar = () => {
@@ -60,14 +60,7 @@ const Navbar = () => {
             {!!user ? (
               <div className="flex gap-2">
                 <div className="hidden sm:block">
-                  <div className="flex">
-                    <Button
-                      onClick={logout}
-                      className="text-gray-100 bg-red-700 hover:bg-red-900 font-medium"
-                    >
-                      Logout
-                    </Button>
-                  </div>
+                  <AccountDropdown handleLogout={logout} />
                 </div>
               </div>
             ) : (
