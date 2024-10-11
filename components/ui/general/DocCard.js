@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "../card";
 import { useRouter } from "next/navigation";
+import { Toggle } from "../toggle";
 
 const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -88,21 +89,23 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
           <Link href={`/book/${id}/read`}>Read Now</Link>
         </Button>
         {isWishlisted ? (
-          <Button
+          <Toggle
+            variant="outline"
             className="ml-2"
             onClick={removeWishlistItem}
             title="Remove bookmark"
           >
             <BookmarkX />
-          </Button>
+          </Toggle>
         ) : (
-          <Button
+          <Toggle
+            variant="outline"
             className="ml-2"
             onClick={handleAddWishlist}
             title="Bookmark this"
           >
             <Bookmark />
-          </Button>
+          </Toggle>
         )}
       </CardFooter>
     </Card>
