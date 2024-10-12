@@ -179,8 +179,8 @@ export const GlobalContextProvider = ({ children }) => {
         process.env.NEXT_PUBLIC_DATABASE_ID,
         process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
         [
-          Query.equal("docId", docId), // Filter by docId
           Query.equal("userId", userId), // Filter by userId
+          Query.equal("doc", docId),
         ]
       );
 
@@ -195,7 +195,7 @@ export const GlobalContextProvider = ({ children }) => {
         process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
         ID.unique(),
         {
-          docId,
+          doc: docId,
           userId,
         }
       );
@@ -264,9 +264,8 @@ export const GlobalContextProvider = ({ children }) => {
       const docRes = await databases.listDocuments(
         process.env.NEXT_PUBLIC_DATABASE_ID,
         process.env.NEXT_PUBLIC_WISHLIST_COLLECTION_ID,
-        [Query.equal("docId", docId), Query.equal("userId", userId)]
+        [Query.equal("doc", docId), Query.equal("userId", userId)]
       );
-      console.log(docRes);
 
       if (docRes.documents.length === 0) {
         throw new Error("No matching wishlist item found");

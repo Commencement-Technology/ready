@@ -79,7 +79,9 @@ const Library = () => {
             </div>
           )
         ) : (
-          <div>Nothing</div>
+          <div>
+            <p>No books found :(</p>
+          </div>
         )}
       </div>
     </div>

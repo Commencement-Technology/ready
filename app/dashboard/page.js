@@ -21,9 +21,9 @@ const Dashboard = () => {
         </section>
         <section>
           <Tabs defaultValue="overview" className="w-[400px]">
-            <TabsList>
+            {/* <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-            </TabsList>
+            </TabsList> */}
             <TabsContent value="overview">
               <h2 className="text-xl md:text-2xl font-medium">Overview</h2>
               <section className="my-4 flex flex-col sm:flex-row gap-4">

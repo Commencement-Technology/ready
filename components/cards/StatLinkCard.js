@@ -3,7 +3,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 const StatLinkCard = ({ title, description, destination }) => {
   return (
-    <Link href={destination} className="pointer-events-none">
+    <Link href={destination}>
       <Card>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
