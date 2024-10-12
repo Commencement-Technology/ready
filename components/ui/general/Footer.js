@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     !(disableNavFooterForPaths.includes(path) || path.endsWith("read")) && (
-      <footer className="bg-black w-full max-w-[1200px] mx-auto rounded-lg shadow-lg px-4 sm:px-6 py-8 my-2">
+      <footer className="bg-black w-full max-w-[1300px] mx-auto rounded-lg shadow-lg px-4 sm:px-6 py-8 my-2">
         <div className="flex items-center justify-between py-4 px-4">
           <div className="flex-shrink-0">
             <Link href="/" className="text-white text-xl font-bold">

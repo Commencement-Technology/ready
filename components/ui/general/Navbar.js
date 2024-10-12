@@ -4,30 +4,46 @@ import { siteTitle } from "@/utils/content";
 import { disableNavFooterForPaths } from "@/utils/disableNavFooter";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import DarkModeToggle from "../buttons/DarkModeToggle";
 import { AccountDropdown } from "@/components/dropdowns/AccountDropdown";
+import Sidebar from "./Sidebar";
 
 const Navbar = () => {
+  const [isNavbarHidden, setIsNavbarHidden] = useState(false);
   const { user, logout } = useContext(GlobalContext);
   const path = usePathname();
 
+  const toggleNavbar = () => {
+    setIsNavbarHidden(!isNavbarHidden);
+  };
+
   return (
     !(disableNavFooterForPaths.includes(path) || path.endsWith("read")) && (
-      <nav className="bg-black w-full max-w-[1200px] mx-auto fixed top-2 left-1/2 transform -translate-x-1/2 z-50 rounded-lg shadow-lg px-4 sm:px-6">
+      <nav className="bg-black w-full max-w-[1300px] mx-auto fixed top-2 left-1/2 transform -translate-x-1/2 z-50 rounded-lg shadow-lg px-4 sm:px-6">
         <div className="flex items-center justify-between py-4 px-4">
           <div className="flex-shrink-0">
             <Link href="/" className="text-white text-xl font-bold">
               {siteTitle}
             </Link>
           </div>
-          <div className="flex gap-2">
-            <div className="hidden sm:block">
-              <div className="flex">
+          <div className="flex gap-4 items-center">
+            <div className="sm:hidden">
+              <div>
                 <DarkModeToggle />
               </div>
             </div>
-            <div className="hidden sm:block">
+            <div className="sm:hidden">
+              <Sidebar />
+            </div>
+          </div>
+          <div className="hidden sm:flex sm:gap-2 ">
+            <div className="flex">
+              <div>
+                <DarkModeToggle />
+              </div>
+            </div>
+            <div>
               <div className="flex">
                 <Link
                   href="/about"
@@ -37,7 +53,7 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-            <div className="hidden sm:block">
+            <div>
               <div className="flex">
                 <Link
                   href="/library"
@@ -47,7 +63,7 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-            <div className="hidden sm:block">
+            <div>
               <div className="flex">
                 <Link
                   href="/upload"
