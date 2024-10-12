@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "peach-junior-antelope-272.mypinata.cloud",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "cloud.appwrite.io",
+        port: "",
+      },
     ],
   },
   webpack(config, { nextRuntime }) {

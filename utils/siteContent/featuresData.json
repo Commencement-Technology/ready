@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Easy Upload & Read",
+    "description": "Upload your PDF documents and read them",
+    "imageUrl": "https://cloud.appwrite.io/v1/storage/buckets/670a87fc0017fa25c5fe/files/670a88b90026d1c5d7f5/view?project=66fd6ed4000e9bd7d374&project=66fd6ed4000e9bd7d374&mode=admin",
+    "altText": "Upload book section of Ready website",
+    "isReverseDirection": false
+  },
+  {
+    "id": "2",
+    "title": "Available on a Web Browser",
+    "description": "Enjoy seamless reading across all your devices—desktop, tablet, or mobile.",
+    "imageUrl": "https://cloud.appwrite.io/v1/storage/buckets/670a87fc0017fa25c5fe/files/670a92400033715d5a67/view?project=66fd6ed4000e9bd7d374&project=66fd6ed4000e9bd7d374&mode=admin",
+    "altText": "Phone and laptop kept on a white desk",
+    "isReverseDirection": true
+  },
+  {
+    "id": "3",
+    "title": "Accessible Anywhere",
+    "description": "Download your PDF to read it offline.",
+    "imageUrl": "https://cloud.appwrite.io/v1/storage/buckets/670a87fc0017fa25c5fe/files/670a93d900314eea6f80/view?project=66fd6ed4000e9bd7d374&project=66fd6ed4000e9bd7d374&mode=admin",
+    "altText": "Download document button on PDF reader on Ready",
+    "isReverseDirection": false
+  }
+]
