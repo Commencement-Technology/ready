@@ -11,6 +11,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [sessionId, setSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [wishlistedItems, setWishlistedItems] = useState([]);
+  const [docsUploadedBy, setDocsUploadedBy] = useState([]);
 
   const databases = new Databases(client);
 
@@ -238,6 +239,23 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
+  const getDocsByUploadedUser = async (userId) => {
+    try {
+      setLoading(true);
+      const res = await databases.listDocuments(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
+        [Query.equal("uploadedBy", userId)]
+      );
+
+      setDocsUploadedBy(res.documents);
+      setLoading(false);
+      return res;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   const deleteWishlistItem = async (docId, userId) => {
     try {
       setLoading(true);
@@ -308,6 +326,7 @@ export const GlobalContextProvider = ({ children }) => {
   useEffect(() => {
     if (!!user) {
       getWishlistItemsByUser(user?.$id);
+      getDocsByUploadedUser(user?.$id);
     }
   }, [user]);
 
@@ -330,6 +349,7 @@ export const GlobalContextProvider = ({ children }) => {
         deleteWishlistItem,
         oAuth2Login,
         wishlistedItems,
+        docsUploadedBy,
       }}
     >
       {children}

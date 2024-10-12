@@ -5,47 +5,27 @@ import DocCard from "@/components/ui/general/DocCard";
 import ViewToggle from "@/components/ui/general/ViewToggle";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
-import { pinata } from "@/utils/config";
 import { siteTitle } from "@/utils/content";
 import { useContext, useEffect, useState } from "react";
 
-const Library = () => {
-  const { loading, getDocs, user } = useContext(GlobalContext);
-  const [docs, setDocs] = useState([]);
+const Wishlist = () => {
   const [view, setView] = useState("grid");
-
-  const getFiles = async () => {
-    const files = await pinata.files.list();
-  };
+  const { loading, wishlistedItems, user } = useContext(GlobalContext);
 
   useEffect(() => {
-    let mounted = true;
-
-    const fetchDocs = async () => {
-      const res = await getDocs();
-
-      if (mounted) {
-        setDocs(res.documents);
-      }
-    };
-
-    fetchDocs();
-
-    return () => {
-      mounted = false;
-    };
+    document.title = `Your Wishlist | ${siteTitle}`;
   }, []);
 
-  useEffect(() => {
-    document.title = `Library | ${siteTitle}`;
-  }, []);
+  // useEffect(() => {
+  //   console.log(wishlistedItems);
+  // }, [wishlistedItems]);
 
   return (
     <div className="max-w-[1300px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-3xl md:text-5xl font-bold">Library</h1>
+      <h1 className="text-3xl md:text-5xl font-bold">Wishlist</h1>
 
       <div className="flex justify-between items-center mt-4">
-        <div>Browse all the uploaded books</div>
+        <div>Browse all your wishlisted books</div>
         <ViewToggle handleValueChange={(e) => setView(e)} />
       </div>
 
@@ -59,10 +39,10 @@ const Library = () => {
             <BookCardSkeleton />
             <BookCardSkeleton />
           </div>
-        ) : docs.length !== 0 ? (
+        ) : wishlistedItems.length !== 0 ? (
           view === "grid" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-              {docs.map((doc) => (
+              {wishlistedItems.map((doc) => (
                 <DocCard
                   key={doc.$id}
                   id={doc.$id}
@@ -74,16 +54,16 @@ const Library = () => {
               ))}
             </div>
           ) : (
-            <div className="">
-              <DocTable docs={docs} userId={user?.$id} />
+            <div>
+              <DocTable docs={wishlistedItems} userId={user?.$id} />
             </div>
           )
         ) : (
-          <div>Nothing</div>
+          <div>No wishlist item found</div>
         )}
       </div>
     </div>
   );
 };
 
-export default Library;
+export default Wishlist;
