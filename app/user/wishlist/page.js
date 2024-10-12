@@ -1,24 +1,22 @@
 "use client";
 import BookCardSkeleton from "@/components/skeletons/BookCardSkeleton";
 import DocTable from "@/components/tables/DocTable";
+import { Button } from "@/components/ui/button";
 import DocCard from "@/components/ui/general/DocCard";
 import ViewToggle from "@/components/ui/general/ViewToggle";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
 import { siteTitle } from "@/utils/content";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
 const Wishlist = () => {
-  const [view, setView] = useState("grid");
+  // const [view, setView] = useState("grid");
   const { loading, wishlistedItems, user } = useContext(GlobalContext);
 
   useEffect(() => {
     document.title = `Your Wishlist | ${siteTitle}`;
   }, []);
-
-  // useEffect(() => {
-  //   console.log(wishlistedItems);
-  // }, [wishlistedItems]);
 
   return (
     <div className="max-w-[1300px] mx-auto p-8 pt-32 pb-20 font-[family-name:var(--font-geist-sans)]">
@@ -26,7 +24,7 @@ const Wishlist = () => {
 
       <div className="flex justify-between items-center mt-4">
         <div>Browse all your wishlisted books</div>
-        <ViewToggle handleValueChange={(e) => setView(e)} />
+        {/* <ViewToggle handleValueChange={(e) => setView(e)} /> */}
       </div>
 
       <Separator className="my-4" />
@@ -42,14 +40,14 @@ const Wishlist = () => {
         ) : wishlistedItems.length !== 0 ? (
           view === "grid" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-              {wishlistedItems.map((doc) => (
+              {wishlistedItems.map((item) => (
                 <DocCard
-                  key={doc.$id}
-                  id={doc.$id}
-                  title={doc.title}
-                  author={doc.author}
-                  thumbnail={doc.thumbnail}
-                  uploadedBy={doc.uploadedBy}
+                  key={item.doc.$id}
+                  id={item.doc.$id}
+                  title={item.doc.title}
+                  author={item.doc.author}
+                  thumbnail={item.doc.thumbnail}
+                  uploadedBy={item.doc.uploadedBy}
                 />
               ))}
             </div>
@@ -59,7 +57,16 @@ const Wishlist = () => {
             </div>
           )
         ) : (
-          <div>No wishlist item found</div>
+          <div>
+            <p className="text-center text-lg">No wishlist item found :(</p>
+            <div className="mt-8 text-center">
+              <Button className="py-8 px-28 text-lg" asChild>
+                <Link href={`/library`} className="text-xl">
+                  Wishlist now!
+                </Link>
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </div>

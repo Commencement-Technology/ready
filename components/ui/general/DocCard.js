@@ -35,7 +35,7 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
 
     if (!!res) {
       toast({
-        description: "Book added to bookmarks successfully!",
+        description: "Book added to wishlist successfully!",
       });
     }
   };
@@ -50,13 +50,13 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
 
     if (!!res) {
       toast({
-        description: "Book removed from bookmarks successfully!",
+        description: "Book removed from wishlist successfully!",
       });
     }
   };
 
   const checkIfWishlisted = (id) => {
-    const value = !!wishlistedItems.find((item) => item.docId === id);
+    const value = !!wishlistedItems.find((item) => item.doc.$id === id);
     setIsWishlisted(value);
     return value;
   };
@@ -66,7 +66,7 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
   }, [wishlistedItems]);
 
   return (
-    <Card className="relative group h-[100%] hover:bg-gray-100 flex flex-col justify-between">
+    <Card className="relative group h-[100%] hover:border-b-slate-600 hover:border-t-slate-600 flex flex-col justify-between">
       {uploadedBy === user?.$id && (
         <>
           <Button
@@ -100,7 +100,7 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
       </Link>
       <CardFooter>
         <Button asChild className="w-[100%]">
-          <Link href={`/book/${id}/read`}>Read Now</Link>
+          <Link href={`/book/${id}/read`}>Read</Link>
         </Button>
         {isWishlisted ? (
           <Toggle
