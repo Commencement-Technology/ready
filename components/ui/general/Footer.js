@@ -15,27 +15,39 @@ const Footer = () => {
               Ready
             </Link>
           </div>
-          <div className="hidden sm:block sm:ml-6">
-            <div className="flex space-x-4">
-              <Link
-                href="/upload"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Upload a document
-              </Link>
+          <div className="flex flex-col md:flex-row gap-2">
+            <div>
+              <div className="flex space-x-4">
+                <Link
+                  href="/upload"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Upload a document
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="hidden sm:block sm:ml-6">
-            <div className="flex space-x-4">
-              <Link
-                href="/about"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                About
-              </Link>
+            <div>
+              <div className="flex space-x-4">
+                <Link
+                  href="/about"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  About
+                </Link>
+              </div>
             </div>
           </div>
         </div>
+        <p className="text-sm text-gray-400 text-center pt-8">
+          Built by{" "}
+          <Link
+            className="font-bold underline"
+            href="https://github.com/Sumansourabh14"
+            target="_blank"
+          >
+            Suman Sourabh
+          </Link>
+        </p>
         <p className="text-sm text-gray-400 text-center pt-8">
           &copy; <span id="year">{new Date().getFullYear()}</span> Ready. All
           rights reserved.

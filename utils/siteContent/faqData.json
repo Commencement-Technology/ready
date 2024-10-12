@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "question": "How do I upload PDFs?",
+    "answer": "Go to the Upload page by clicking on the 'Upload Your First PDF Now!' button. Fill the details and hit 'Upload'. That's it!"
+  },
+  {
+    "id": "2",
+    "question": "Is there a limit to how many PDFs I can upload?",
+    "answer": "No, just keep uploading!"
+  },
+  {
+    "id": "3",
+    "question": "Can I access my PDFs from different devices?",
+    "answer": "Yes, you can access your PDFs on different devices."
+  }
+]
