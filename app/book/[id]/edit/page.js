@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import PageTitle from "@/components/ui/general/PageTitle";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { GlobalContext } from "@/services/GlobalContext";
@@ -26,6 +28,7 @@ const EditBook = () => {
   const [url, setUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(true);
 
   const { loading, getDoc, updateDoc } = useContext(GlobalContext);
   const { toast } = useToast();
@@ -60,6 +63,7 @@ const EditBook = () => {
       setUrl(data.url);
       setThumbnailUrl(data.thumbnail);
       setFileName(data?.filename);
+      setIsPrivate(data?.isPrivate);
     }
   }, [data]);
 
@@ -125,7 +129,8 @@ const EditBook = () => {
       thumbnailUrl,
       author,
       id,
-      fileName
+      fileName,
+      isPrivate
     );
 
     if (!!res) {
@@ -162,6 +167,14 @@ const EditBook = () => {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
               />
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="private-or-public">Private</Label>
+                <Switch
+                  checked={isPrivate}
+                  id="private-or-public"
+                  onCheckedChange={(e) => setIsPrivate(!isPrivate)}
+                />
+              </div>
             </div>
             <div className="flex flex-col gap-4">
               <FileUploader

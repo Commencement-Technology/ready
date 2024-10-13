@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import PageTitle from "@/components/ui/general/PageTitle";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { GlobalContext } from "@/services/GlobalContext";
@@ -25,6 +27,7 @@ const Upload = () => {
   const [url, setUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(true);
 
   const { loading, uploadDoc, user } = useContext(GlobalContext);
   const { toast } = useToast();
@@ -87,7 +90,8 @@ const Upload = () => {
       url,
       thumbnailUrl,
       author,
-      fileName
+      fileName,
+      isPrivate
     );
 
     if (!!res) {
@@ -130,6 +134,14 @@ const Upload = () => {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
               />
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="private-or-public">Private</Label>
+                <Switch
+                  checked={isPrivate}
+                  id="private-or-public"
+                  onCheckedChange={(e) => setIsPrivate(!isPrivate)}
+                />
+              </div>
             </div>
             <div className="flex flex-col gap-4">
               <FileUploader

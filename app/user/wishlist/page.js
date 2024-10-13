@@ -3,7 +3,6 @@ import BookCardSkeleton from "@/components/skeletons/BookCardSkeleton";
 import DocTable from "@/components/tables/DocTable";
 import { Button } from "@/components/ui/button";
 import DocCard from "@/components/ui/general/DocCard";
-import ViewToggle from "@/components/ui/general/ViewToggle";
 import { Separator } from "@/components/ui/separator";
 import { GlobalContext } from "@/services/GlobalContext";
 import { siteTitle } from "@/utils/content";
@@ -11,7 +10,7 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
 const Wishlist = () => {
-  // const [view, setView] = useState("grid");
+  const [view, setView] = useState("grid");
   const { loading, wishlistedItems, user } = useContext(GlobalContext);
 
   useEffect(() => {

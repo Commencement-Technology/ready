@@ -10,7 +10,7 @@ import { siteTitle } from "@/utils/content";
 import { useContext, useEffect, useState } from "react";
 
 const Library = () => {
-  const { loading, getDocs, user } = useContext(GlobalContext);
+  const { loading, getPublicDocs, user } = useContext(GlobalContext);
   const [docs, setDocs] = useState([]);
   const [view, setView] = useState("grid");
 
@@ -22,10 +22,10 @@ const Library = () => {
     let mounted = true;
 
     const fetchDocs = async () => {
-      const res = await getDocs();
+      const res = await getPublicDocs();
 
       if (mounted) {
-        setDocs(res.documents);
+        setDocs(res);
       }
     };
 
@@ -59,7 +59,7 @@ const Library = () => {
             <BookCardSkeleton />
             <BookCardSkeleton />
           </div>
-        ) : docs.length !== 0 ? (
+        ) : !!docs && docs.length !== 0 ? (
           view === "grid" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
               {docs.map((doc) => (
@@ -74,7 +74,7 @@ const Library = () => {
               ))}
             </div>
           ) : (
-            <div className="">
+            <div>
               <DocTable docs={docs} userId={user?.$id} />
             </div>
           )

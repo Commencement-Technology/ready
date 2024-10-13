@@ -64,7 +64,8 @@ export const GlobalContextProvider = ({ children }) => {
     url,
     thumbnail,
     author,
-    filename
+    filename,
+    isPrivate
   ) => {
     try {
       setLoading(true);
@@ -80,6 +81,7 @@ export const GlobalContextProvider = ({ children }) => {
           author,
           uploadedBy: user.$id,
           filename,
+          isPrivate,
         }
       );
 
@@ -97,7 +99,8 @@ export const GlobalContextProvider = ({ children }) => {
     thumbnail,
     author,
     id,
-    filename
+    filename,
+    isPrivate
   ) => {
     try {
       setLoading(true);
@@ -113,6 +116,7 @@ export const GlobalContextProvider = ({ children }) => {
           author,
           uploadedBy: user.$id,
           filename,
+          isPrivate,
         }
       );
 
@@ -151,6 +155,52 @@ export const GlobalContextProvider = ({ children }) => {
       return res;
     } catch (error) {
       setLoading(false);
+    }
+  };
+
+  const getPublicDocs = async () => {
+    try {
+      setLoading(true);
+
+      // Step 1: Fetch public documents
+      const publicDocs = await databases.listDocuments(
+        process.env.NEXT_PUBLIC_DATABASE_ID,
+        process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
+        [Query.equal("isPrivate", false)] // Fetch public documents
+      );
+
+      let combinedDocs = publicDocs.documents; // Start with public docs
+
+      // Step 2: Check if user is logged in to fetch private docs
+      let user = null;
+      try {
+        user = await account.get(); // Get the current user session
+      } catch (err) {
+        // No user session exists, set user to null
+        user = null;
+      }
+
+      // Step 3: If the user is logged in, fetch their private documents
+      if (user) {
+        const userPrivateDocs = await databases.listDocuments(
+          process.env.NEXT_PUBLIC_DATABASE_ID,
+          process.env.NEXT_PUBLIC_DOCS_COLLECTION_ID,
+          [
+            Query.equal("isPrivate", true),
+            Query.equal("uploadedBy", user.$id), // Fetch only this user's private docs
+          ]
+        );
+
+        // Combine public docs and user's private docs
+        combinedDocs = [...combinedDocs, ...userPrivateDocs.documents];
+        console.log(combinedDocs);
+      }
+
+      setLoading(false);
+      return combinedDocs; // Return combined list of docs
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
     }
   };
 
@@ -349,6 +399,7 @@ export const GlobalContextProvider = ({ children }) => {
         oAuth2Login,
         wishlistedItems,
         docsUploadedBy,
+        getPublicDocs,
       }}
     >
       {children}
