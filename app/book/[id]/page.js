@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from "react";
 const BookDetails = () => {
   const [data, setData] = useState(null);
 
-  const { getDoc, loading } = useContext(GlobalContext);
+  const { getDoc, loading, user } = useContext(GlobalContext);
   const { id } = useParams();
 
   useEffect(() => {
@@ -42,6 +42,19 @@ const BookDetails = () => {
       <div>
         {loading ? (
           <BookDetailsSkeleton />
+        ) : !!data &&
+          data.isPrivate &&
+          !!data &&
+          data.uploadedBy !== user?.$id ? (
+          <div className="min-h-[60vh]">
+            <h1 className="text-2xl md:text-5xl text-center font-bold">
+              This book is now private
+            </h1>
+            <p className="text-center text-md mt-8">
+              This book was set to &apos;private&apos; by the user and will not
+              be visible to others.
+            </p>
+          </div>
         ) : !!data ? (
           <div className="flex flex-col sm:flex-row gap-8">
             <div className="flex flex-col gap-4">

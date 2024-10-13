@@ -56,7 +56,7 @@ const DocCard = ({ id, title, author, thumbnail, uploadedBy }) => {
   };
 
   const checkIfWishlisted = (id) => {
-    const value = !!wishlistedItems.find((item) => item.doc.$id === id);
+    const value = !!wishlistedItems.find((item) => item?.doc?.$id === id);
     setIsWishlisted(value);
     return value;
   };
